@@ -5,7 +5,7 @@ CREATE TABLE silver.crm_cust_info (
 	cst_key NVARCHAR(50),
 	cst_firstname NVARCHAR(50),
 	cst_lastname NVARCHAR(50),
-	cst_material_status NVARCHAR(50),
+	cst_maritial_status NVARCHAR(50),
 	cst_gender NVARCHAR(50),
 	cst_create_date DATETIME,
 	dwh_create_date DATETIME DEFAULT GETDATE()

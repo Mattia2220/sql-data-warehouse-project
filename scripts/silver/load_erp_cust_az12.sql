@@ -4,7 +4,10 @@ bdate,
 gen)
 
 SELECT
-SUBSTRING(cid, 4, LEN(cid)) AS cid,
+CASE
+	WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid))
+	ELSE cid
+END cid,
 CASE 
 	WHEN bdate > GETDATE() THEN NULL
 	ELSE bdate
@@ -15,3 +18,4 @@ CASE
 	ELSE 'n/a'
 END AS gen
 FROM bronze.erp_cust_az12
+

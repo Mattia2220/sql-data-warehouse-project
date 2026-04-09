@@ -1,3 +1,26 @@
+/*
+===============================================================================
+Stored Procedure: Load Silver Layer (Cleanse & Transform)
+===============================================================================
+Description:
+    This stored procedure performs the ETL process to transform data from the 
+    'bronze' schema to the 'silver' schema.
+    
+    Key Transformations:
+    - Deduplication: Uses ROW_NUMBER() to keep only the most recent records.
+    - Data Cleansing: Removes whitespace (TRIM) and standardizes text casing.
+    - Business Logic: Maps codes to descriptive values (e.g., 'M' -> 'Male').
+    - Data Integrity: Validates and corrects sales calculations and date formats.
+    - Data Enrichment: Adds metadata and derives surrogate-friendly keys.
+
+Parameters:
+    None
+
+Usage:
+    EXEC silver.load_silver;
+===============================================================================
+*/
+
 CREATE OR ALTER PROCEDURE silver.load_silver AS
 BEGIN
 	PRINT '>> Load table: silver.crm_cust_info';

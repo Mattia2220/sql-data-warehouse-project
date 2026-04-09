@@ -1,3 +1,24 @@
+/*
+===============================================================================
+DDL Script: Create Silver Tables
+===============================================================================
+Description:
+    This script creates the tables in the 'silver' schema.
+    The Silver Layer represents the "Cleansed" zone of the Data Warehouse.
+    In this layer, data is refined from the Bronze Layer by:
+    - Standardizing data types (e.g., converting INT dates to actual DATE types).
+    - Handling null values and cleaning strings.
+    - Adding system metadata (dwh_create_date) for auditing and traceability.
+
+Source Layer:
+    - Bronze Layer (Raw Data)
+
+Usage:
+    - Drops existing tables if they exist to allow for a clean re-run.
+    - Implements basic schema enforcement for cleansed data.
+===============================================================================
+*/
+
 IF OBJECT_ID('silver.crm_cust_info', 'U') IS NOT NULL
 	DROP TABLE silver.crm_cust_info
 CREATE TABLE silver.crm_cust_info (

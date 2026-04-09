@@ -1,3 +1,23 @@
+/*
+===============================================================================
+DDL Script: Create Bronze Tables
+===============================================================================
+Description:
+    This script creates the tables in the 'bronze' schema. 
+    The Bronze Layer serves as the Landing Zone (Raw Layer) for the Data Warehouse.
+    It contains raw data ingested directly from source systems (CRM and ERP) 
+    without any transformations, preserving the original data structure.
+
+Source Systems:
+    - CRM: Customer Info, Product Info, Sales Details.
+    - ERP: Customer AZ12, Location A101, Product Categories.
+
+Usage:
+    - Drops existing tables if they exist to allow for a clean re-run.
+    - Defines the schema and data types according to the source data.
+===============================================================================
+*/
+
 IF OBJECT_ID('bronze.crm_cust_info', 'U') IS NOT NULL
 	DROP TABLE bronze.crm_cust_info
 CREATE TABLE bronze.crm_cust_info (

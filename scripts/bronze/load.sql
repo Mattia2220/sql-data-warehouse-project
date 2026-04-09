@@ -1,4 +1,25 @@
-EXECUTE bronze.load_bronze;
+/*
+===============================================================================
+Stored Procedure: Load Bronze Layer (Extract & Load)
+===============================================================================
+Description:
+    This stored procedure manages the ETL process for the Bronze Layer.
+    It truncates the existing bronze tables and performs a BULK INSERT from 
+    external CSV files to populate the Raw Layer.
+    
+    The procedure includes:
+    - Batch execution timing (Duration tracking).
+    - Error handling via TRY...CATCH blocks.
+    - Console logging for progress monitoring.
+
+Parameters:
+    None
+
+Usage:
+    EXEC bronze.load_bronze;
+===============================================================================
+*/
+
 
 CREATE OR ALTER PROCEDURE bronze.load_bronze AS
 BEGIN

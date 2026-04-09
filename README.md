@@ -1,90 +1,90 @@
 # SQL Data Warehouse Project 🚀
 
-![Data Model](data_model.png)
+![Data Model](docs/data_model.png)
 
 ## 📌 Project Overview
-Questo progetto illustra la progettazione e l'implementazione di un **Data Warehouse moderno** utilizzando **SQL Server**. L'obiettivo è trasformare dati grezzi provenienti da diverse sorgenti in insight aziendali pronti per l'analisi, seguendo le best practice di data engineering.
+This project demonstrates the design and implementation of a **Modern Data Warehouse** using **SQL Server**. The goal is to transform raw data from disparate sources into business-ready insights by following data engineering best practices.
 
-Il progetto copre l'intero ciclo di vita del dato:
-* **ETL/ELT Processes**: Caricamento e trasformazione dei dati.
-* **Data Modeling**: Implementazione di uno Star Schema (Fact e Dimension tables).
-* **Data Analytics**: Creazione di un layer finale (Gold) ottimizzato per la reportistica.
+The project covers the entire data lifecycle:
+* **ETL/ELT Processes**: Data ingestion and transformation.
+* **Data Modeling**: Implementation of a Star Schema (Fact and Dimension tables).
+* **Data Analytics**: Creation of a final Gold Layer optimized for business reporting.
 
 ---
 
 ## 🏗️ Medallion Architecture
-Il data warehouse è strutturato in tre layer logici per garantire qualità e tracciabilità del dato:
+The data warehouse is organized into three logical layers to ensure data quality, integrity, and traceability:
 
-1.  **Bronze Layer (Raw)**: Contiene i dati grezzi importati direttamente dai file sorgente (CSV).
-2.  **Silver Layer (Cleansed)**: Fase di pulizia e standardizzazione. Qui vengono gestiti i valori nulli, i duplicati e i formati delle date.
-3.  **Gold Layer (Analytical)**: Il layer finale dove i dati sono modellati secondo una struttura **Star Schema**, pronti per essere consumati da strumenti di BI come Power BI o Tableau.
+1.  **Bronze Layer (Raw)**: Contains raw data imported directly from source files (CSV). No transformations are applied here to preserve the original state.
+2.  **Silver Layer (Cleansed)**: Focuses on data cleaning and standardization. This stage handles null values, removes duplicates, and standardizes date formats.
+3.  **Gold Layer (Analytical)**: The final layer where data is modeled into a **Star Schema**, specifically designed for consumption by BI tools like Power BI, Tableau, or Excel.
 
 ---
 
 ## 📊 Data Model (Gold Layer)
-Il cuore analitico del progetto è rappresentato dal **Sales Data Mart**. Come mostrato nel diagramma sopra, il modello si basa su:
-* **Fact Table**: `gold.fact_sales` (contiene le metriche quantitative).
-* **Dimension Tables**: `gold.dim_customers` e `gold.dim_products` (contengono gli attributi descrittivi).
+The analytical core of the project is the **Sales Data Mart**. As illustrated in the diagram above, the model follows the Kimball methodology:
+* **Fact Table**: `gold.fact_sales` (contains quantitative business metrics).
+* **Dimension Tables**: `gold.dim_customers` and `gold.dim_products` (contain descriptive attributes).
 
 ---
 
 ## 📖 Data Catalog (Gold Layer)
 
-Il Gold Layer è strutturato per supportare casi d'uso di business. Di seguito il dettaglio delle tabelle:
+The Gold Layer is structured to support high-performance analytical queries. Below are the table definitions:
 
 ### 1️⃣ gold.dim_customers
-* **Purpose:** Memorizza i dettagli dei clienti arricchiti con dati demografici e geografici.
+* **Purpose:** Stores customer details enriched with demographic and geographic data.
 
 | Column Name | Data Type | Description |
 | :--- | :--- | :--- |
-| **customer_key** | INT | Surrogate key univoca per il record (Primary Key). |
-| customer_id | INT | Identificativo numerico originale del cliente. |
-| customer_number | NVARCHAR(50) | Codice alfanumerico per il tracciamento. |
-| first_name | NVARCHAR(50) | Nome del cliente. |
-| last_name | NVARCHAR(50) | Cognome del cliente. |
-| country | NVARCHAR(50) | Paese di residenza. |
-| marital_status | NVARCHAR(50) | Stato civile (es. Married, Single). |
-| gender | NVARCHAR(50) | Genere del cliente. |
-| birthdate | DATE | Data di nascita (YYYY-MM-DD). |
-| create_date | DATE | Data di creazione del record nel sistema. |
+| **customer_key** | INT | Primary Key: Unique surrogate key for each customer record. |
+| customer_id | INT | Original unique numerical identifier for the customer. |
+| customer_number | NVARCHAR(50) | Alphanumeric identifier used for tracking. |
+| first_name | NVARCHAR(50) | Customer's first name. |
+| last_name | NVARCHAR(50) | Customer's last name. |
+| country | NVARCHAR(50) | Country of residence (e.g., 'Australia'). |
+| marital_status | NVARCHAR(50) | Marital status (e.g., 'Married', 'Single'). |
+| gender | NVARCHAR(50) | Gender (e.g., 'Male', 'Female'). |
+| birthdate | DATE | Date of birth (YYYY-MM-DD). |
+| create_date | DATE | Timestamp when the record was created in the system. |
 
 ### 2️⃣ gold.dim_products
-* **Purpose:** Fornisce informazioni dettagliate sui prodotti e i loro attributi.
+* **Purpose:** Provides comprehensive information about products and their classifications.
 
 | Column Name | Data Type | Description |
 | :--- | :--- | :--- |
-| **product_key** | INT | Surrogate key univoca per il prodotto (Primary Key). |
-| product_id | INT | Identificativo interno del prodotto. |
-| product_number | NVARCHAR(50) | Codice alfanumerico del prodotto. |
-| product_name | NVARCHAR(50) | Nome descrittivo (include tipo, colore, taglia). |
-| category_id | NVARCHAR(50) | ID della categoria di appartenenza. |
-| category | NVARCHAR(50) | Classificazione macro (es. Bikes, Components). |
-| subcategory | NVARCHAR(50) | Classificazione dettagliata del prodotto. |
-| maintenance_required | NVARCHAR(50) | Indica se è richiesta manutenzione (Yes/No). |
-| cost | INT | Costo base del prodotto. |
-| product_line | NVARCHAR(50) | Linea di prodotti (es. Road, Mountain). |
-| start_date | DATE | Data di messa in vendita. |
+| **product_key** | INT | Primary Key: Unique surrogate key for each product. |
+| product_id | INT | Internal unique identifier for the product. |
+| product_number | NVARCHAR(50) | Structured alphanumeric code for inventory. |
+| product_name | NVARCHAR(50) | Descriptive name (includes type, color, and size). |
+| category_id | NVARCHAR(50) | Unique identifier for the product category. |
+| category | NVARCHAR(50) | High-level classification (e.g., Bikes, Components). |
+| subcategory | NVARCHAR(50) | Detailed classification within the category. |
+| maintenance_required | NVARCHAR(50) | Indicates if maintenance is needed (Yes/No). |
+| cost | INT | Base cost/price of the product. |
+| product_line | NVARCHAR(50) | Specific series (e.g., Road, Mountain). |
+| start_date | DATE | Date the product became available. |
 
 ### 3️⃣ gold.fact_sales
-* **Purpose:** Memorizza i dati transazionali delle vendite per scopi analitici.
+* **Purpose:** Stores transactional sales data for business metric analysis.
 
 | Column Name | Data Type | Description |
 | :--- | :--- | :--- |
-| order_number | NVARCHAR(50) | Identificativo univoco dell'ordine (es. 'SO54496'). |
-| **product_key** | INT | Foreign Key verso `gold.dim_products`. |
-| **customer_key** | INT | Foreign Key verso `gold.dim_customers`. |
-| order_date | DATE | Data in cui è stato effettuato l'ordine. |
-| shipping_date | DATE | Data di spedizione. |
-| due_date | DATE | Data di scadenza del pagamento. |
-| sales_amount | INT | Valore monetario totale della vendita. |
-| quantity | INT | Numero di unità ordinate. |
-| price | INT | Prezzo unitario del prodotto. |
+| order_number | NVARCHAR(50) | Unique order identifier (e.g., 'SO54496'). |
+| **product_key** | INT | Foreign Key linking to `gold.dim_products`. |
+| **customer_key** | INT | Foreign Key linking to `gold.dim_customers`. |
+| order_date | DATE | Date the order was placed. |
+| shipping_date | DATE | Date the order was shipped. |
+| due_date | DATE | Payment due date. |
+| sales_amount | INT | Total monetary value of the sale. |
+| quantity | INT | Number of units ordered. |
+| price | INT | Price per unit. |
 
 ---
 
 ## 🛠️ Tech Stack
 * **Database**: SQL Server
-* **Modellazione**: Star Schema (Kimball Methodology)
-* **Tool**: SQL Server Management Studio (SSMS)
+* **Modeling**: Star Schema (Kimball Methodology)
+* **Tools**: SQL Server Management Studio (SSMS), Git
 
 ---

@@ -1,3 +1,24 @@
+/*
+===============================================================================
+Gold Layer: Presentation Views (Star Schema)
+===============================================================================
+Description:
+    This script creates the final analytical layer (Gold) of the Data Warehouse.
+    The Gold Layer presents data in a Star Schema format, consisting of:
+    - Dimension Tables (dim_customer, dim_products): Descriptive attributes.
+    - Fact Table (fact_sales): Quantitative metrics and foreign keys.
+
+Key Features:
+    - Surrogate Key Generation: Uses ROW_NUMBER() for unique identification.
+    - Data Integration: Joins CRM and ERP data from the Silver Layer.
+    - Business Logic: Implements master data rules (e.g., CRM as master for gender).
+    - Data Filtering: Excludes historical product records (prd_end_dt IS NULL).
+
+Source Layer:
+    - Silver Layer (Cleanse Data)
+===============================================================================
+*/
+
 CREATE VIEW gold.dim_customer AS
 SELECT 
   ROW_NUMBER() OVER (ORDER BY ci.cst_id) AS customer_key,
